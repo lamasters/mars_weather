@@ -1,6 +1,8 @@
-# Mars Weather Comparison Web App
+# Is Mars Colder?
 
-The Mars Weather Comparison Web App is a user-friendly application that allows you to compare the weather on Mars with your local weather. Utilizing data from NASA’s Curiosity mission, this app provides users with an in
+Available Here - [Is Mars Colder?](https://is-mars-colder.vercel.app)
+
+"Is Mars Colder?" allows you to compare the weather on Mars with your local weather. Utilizing data from NASA’s Curiosity mission.
 
 ## Contributing
 
