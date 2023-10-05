@@ -1,73 +1,54 @@
 "use client";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
+import { Client, Functions } from "appwrite";
 
-async function getMarsWeather(setMarsWeather: (data: any) => void) {
-  let mars_res = await fetch(
-    "https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json"
-  );
-  let mars_data = await mars_res.json();
-  let latest_sol = mars_data.soles[0];
-
-  console.log(latest_sol);
-  setMarsWeather({
-    sol: latest_sol.sol,
-    date: latest_sol.terrestrial_date,
-    min_temp: latest_sol.min_temp,
-    max_temp: latest_sol.max_temp,
-    pressure: latest_sol.pressure,
-    sunrise: latest_sol.sunrise,
-    sunset: latest_sol.sunset,
-  });
-}
-
-async function getEarthData(
-  setEarthWeather: (data: any) => void,
-  lat: number,
-  lon: number
-) {
-  let earth_res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_OWM_API_KEY}&units=metric`
-  );
-  let earth_data = await earth_res.json();
-  console.log(earth_data);
-
-  setEarthWeather({
-    temp: earth_data.main.temp,
-    min_temp: Math.round(earth_data.main.temp_min),
-    max_temp: Math.round(earth_data.main.temp_max),
-    pressure: earth_data.main.pressure,
-  });
-}
-
-async function getLocation(
-  setEarthData: (data: any) => void,
-  lat: number,
-  lon: number,
-  setLat: (data: any) => void,
-  setLon: (data: any) => void
-) {
+async function getLocation() {
   let location_res = await fetch("https://ipapi.co/json/");
   let location_data = await location_res.json();
-  setLat(location_data.latitude);
-  setLon(location_data.longitude);
-  await getEarthData(
-    setEarthData,
-    location_data.latitude,
-    location_data.longitude
-  );
+  return { lat: location_data.latitude, lon: location_data.longitude };
 }
 
 async function hydrate(
   setMarsWeather: (data: any) => void,
-  setEarthData: (data: any) => void,
-  lat: number,
-  lon: number,
-  setLat: (data: any) => void,
-  setLon: (data: any) => void
+  setEarthWeather: (data: any) => void
 ) {
-  await getLocation(setEarthData, lat, lon, setLat, setLon);
-  await getMarsWeather(setMarsWeather);
+  const client = new Client();
+  client
+    .setEndpoint("https://cloud.appwrite.io/v1")
+    .setProject("651f2b09a469886de156");
+  const functions = new Functions(client);
+  let location = await getLocation();
+
+  functions
+    .createExecution(
+      "651f2c381402ba422c70",
+      JSON.stringify(location),
+      false,
+      "/",
+      "GET"
+    )
+    .then((response: any) => {
+      let data = JSON.parse(response.response);
+      console.log(data);
+      let mars_data = data.mars_data;
+      let earth_data = data.earth_data;
+      setMarsWeather({
+        sol: mars_data.sol,
+        data: mars_data.date,
+        min_temp: mars_data.min_temp,
+        max_temp: mars_data.max_temp,
+        pressure: mars_data.pressure,
+        sunrise: mars_data.sunrise,
+        sunset: mars_data.sunset,
+      });
+      setEarthWeather({
+        temp: earth_data.temp,
+        min_temp: earth_data.min_temp,
+        max_temp: earth_data.max_temp,
+        pressure: earth_data.pressure,
+      });
+    });
 }
 
 export default function Home() {
@@ -86,10 +67,8 @@ export default function Home() {
     max_temp: 0,
     pressure: 0,
   });
-  const [lat, setLat] = useState(-78.159);
-  const [lon, setLon] = useState(16.406);
   useEffect(() => {
-    hydrate(setMarsWeather, setEarthWeather, lat, lon, setLat, setLon);
+    hydrate(setMarsWeather, setEarthWeather);
   }, []);
 
   const date = new Date(Date.now());
