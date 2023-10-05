@@ -11,6 +11,17 @@
     font-family: sans-serif;
 }
 
+.header {
+  position: relative;
+  top: 64px;
+  margin: auto;
+  text-align: center;
+  font-size: 48px;
+  font-family: sans-serif;
+  background-color: #000;
+  color: #fff;
+}
+
 .mars_container {
   width: 50%;
   height: 100%;
