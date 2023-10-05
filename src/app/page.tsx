@@ -99,8 +99,8 @@ export default function Home() {
           <div className={styles.weather_container}>
             <h1>Earth</h1>
             <p>Date: {date.toDateString()}</p>
-            <p>High: {earthWeather.max_temp}°C</p>
-            <p>Low: {earthWeather.min_temp}°C</p>
+            <p>High: {Math.round(earthWeather.max_temp)} °C</p>
+            <p>Low: {Math.round(earthWeather.min_temp)} °C</p>
             <p>Pressure: {earthWeather.pressure} mm Hg</p>
           </div>
         </div>
