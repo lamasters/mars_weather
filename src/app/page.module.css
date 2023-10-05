@@ -1,0 +1,51 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+.mars_container {
+  width: 50%;
+  height: 100%;
+  left: 0px;
+  background-color: black;
+  background-image: url("/mars.jpeg");
+  background-size: calc(50vw);
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.earth_container {
+  width: 50%;
+  height: 100%;
+  right: 0px;
+  background-color: black;
+  background-image: url("/earth.png");
+  background-size: calc(58vw);
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weather_container {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+}
