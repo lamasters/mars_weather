@@ -3,6 +3,12 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { Client, Functions } from "appwrite";
 
+const APPWRITE_CONFIG = {
+  ENDPOINT: 'https://homelab.hippogriff-lime.ts.net/v1',
+  PROJECT_ID: '65aad3806c956cf09df4',
+  FUNCTION_ID: '651f2c381402ba422c70',
+};
+
 async function getLocation() {
   let location_res = await fetch("https://ipapi.co/json/");
   let location_data = await location_res.json();
@@ -15,14 +21,14 @@ async function hydrate(
 ) {
   const client = new Client();
   client
-    .setEndpoint("https://cloud.appwrite.io/v1")
-    .setProject("651f2b09a469886de156");
+    .setEndpoint(APPWRITE_CONFIG.ENDPOINT)
+    .setProject(APPWRITE_CONFIG.PROJECT_ID);
   const functions = new Functions(client);
   let location = await getLocation();
 
   functions
     .createExecution(
-      "651f2c381402ba422c70",
+      APPWRITE_CONFIG.FUNCTION_ID,
       JSON.stringify(location),
       false,
       "/",
