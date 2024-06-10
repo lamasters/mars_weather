@@ -1,7 +1,9 @@
 "use client";
-import styles from "./page.module.css";
-import { useEffect, useState } from "react";
+
 import { Client, Functions } from "appwrite";
+import { useEffect, useState } from "react";
+
+import styles from "./page.module.css";
 
 const APPWRITE_CONFIG = {
   ENDPOINT: 'https://homelab.hippogriff-lime.ts.net/v1',
@@ -17,7 +19,8 @@ async function getLocation() {
 
 async function hydrate(
   setMarsWeather: (data: any) => void,
-  setEarthWeather: (data: any) => void
+  setEarthWeather: (data: any) => void,
+  setLoaded: (data: boolean) => void
 ) {
   const client = new Client();
   client
@@ -53,6 +56,7 @@ async function hydrate(
         max_temp: Number(earth_data.max_temp),
         pressure: earth_data.pressure,
       });
+      setLoaded(true);
     });
 }
 
@@ -72,24 +76,32 @@ export default function Home() {
     max_temp: 0,
     pressure: 0,
   });
-  const [colder, setColder] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    hydrate(setMarsWeather, setEarthWeather);
+    hydrate(setMarsWeather, setEarthWeather, setLoaded);
   }, []);
 
   const date = new Date(Date.now());
   console.log(marsWeather.max_temp + marsWeather.min_temp);
   console.log(earthWeather.max_temp + earthWeather.min_temp);
+
+  const marsAvg = (marsWeather.max_temp + marsWeather.min_temp) / 2;
+  const earthAvg = (earthWeather.max_temp + earthWeather.min_temp) / 2;
+  let colder;
+  if (!loaded) {
+    colder = "Maybe, it's loading..."
+  } else if (marsAvg < earthAvg) {
+    colder = "Yes";
+  } else if (marsAvg > earthAvg) {
+    colder = "No";
+  }
   return (
     <>
       <div className={styles.header}>
         Is Mars Colder?
         <br />
-        {(marsWeather.max_temp + marsWeather.min_temp) / 2 <
-        (earthWeather.max_temp + earthWeather.min_temp) / 2
-          ? "Yes"
-          : "No"}
+        {colder}
       </div>
       <main className={styles.main}>
         <div className={styles.mars_container}>
