@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const APPWRITE_CONFIG = {
-  ENDPOINT: 'https://homelab.hippogriff-lime.ts.net/v1',
-  PROJECT_ID: '65aad3806c956cf09df4',
-  FUNCTION_ID: '651f2c381402ba422c70',
+  ENDPOINT: "https://cloud.appwrite.io/v1",
+  PROJECT_ID: "67cc9f770031b2c18340",
+  FUNCTION_ID: "651f2c381402ba422c70",
 };
 
 async function getLocation() {
@@ -90,7 +90,7 @@ export default function Home() {
   const earthAvg = (earthWeather.max_temp + earthWeather.min_temp) / 2;
   let colder;
   if (!loaded) {
-    colder = "Maybe, it's loading..."
+    colder = "Maybe, it's loading...";
   } else if (marsAvg < earthAvg) {
     colder = "Yes";
   } else if (marsAvg > earthAvg) {
