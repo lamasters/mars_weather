@@ -97,13 +97,13 @@ export default function Home() {
     colder = "No";
   }
   return (
-    <>
+    <main className={styles.main}>
       <div className={styles.header}>
         Is Mars Colder?
         <br />
         {colder}
       </div>
-      <main className={styles.main}>
+      <div className={styles.planets_container}>
         <div className={styles.mars_container}>
           <div className={styles.weather_container}>
             <h1>Mars</h1>
@@ -122,7 +122,7 @@ export default function Home() {
             <p>Pressure: {earthWeather.pressure} mm Hg</p>
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }
