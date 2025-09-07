@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const APPWRITE_CONFIG = {
-  ENDPOINT: "https://cloud.appwrite.io/v1",
-  PROJECT_ID: "67cc9f770031b2c18340",
+  ENDPOINT: "https://appwrite.liammasters.space/v1",
+  PROJECT_ID: "68bdaa450031c4b6594c",
   FUNCTION_ID: "651f2c381402ba422c70",
 };
 
